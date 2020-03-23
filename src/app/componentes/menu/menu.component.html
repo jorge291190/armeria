@@ -1,0 +1,8 @@
+<div class="card-group mb-5">
+  <div class="card" *ngFor="let plan of datos">
+          <a class="btn btn-primary" (click)="navegar(plan.menu)"  [ngStyle]="{'font-size':'24px','background':plan.rgb, 'color': plan.font}"  style="text-align: center; display: block; margin: auto; ">
+            {{plan.titulo}} 
+            </a>  
+        </div> 
+  </div>
+  

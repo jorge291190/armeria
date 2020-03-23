@@ -1,0 +1,125 @@
+<div class="container">
+
+<div class="row">
+  <div align="center" class="col">
+    <app-regresar class="mb-2"></app-regresar>
+  </div>
+  <div align="center" class="col">
+    <button type="button" class="btn btn-primary boton btn-xl">
+      <a class="btn-floating btn-large waves-effect waves-light red">
+        </a>
+  Generar venta
+</button>
+  </div>
+</div>
+<br><br>
+<div class="row">
+    <div class="col card">
+      <h1 style="text-align: center;"> NOTA DE VENTA</h1>
+      <hr>
+          <form>
+              FOLIO
+              <input type="text" class="form-control" id="formGroupExampleInput" placeholder="C-00025">
+              <br>
+              FECHA DE VENTA
+              <input type="date" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+              <br>
+              <input id="campoBusqueda" type="text" name="search" placeholder="Buscar cliente..">
+          </form>
+    </div>
+    <div class="col card">
+      <h1 style="text-align: center;">INFO DE CLIENTE</h1>
+      <hr>
+  
+          <form>
+              <label for="lname">NOMBRE</label>
+              <input type="text" class="form-control" id="lname" name="lname" disabled>
+              <label for="lname">PERTENECE A CLUB DE CAZA</label>
+              <input type="text" class="form-control" id="lname" placeholder="SI/NO" disabled>
+              <label for="lname">DIRECCION</label>
+              <input type="text" class="form-control" id="lname" placeholder="SI/NO" disabled>
+              <label for="lname">ULTIMA VENTA</label>
+              <input type="date" class="form-control" id="lname" placeholder="SI/NO" disabled>
+          </form>
+  
+      </div>
+  </div>
+  
+  <br><br>
+  
+  <div class="row">
+    <div class="col card">
+      <h1 style="text-align: center;"> DETALLE DE VENTA</h1>
+      <hr>
+      <select class="form-control">
+        <option>Default select</option>
+        <option>9 mm</option>
+        <option>375</option>
+        <option>22 largo</option>
+      </select>
+      <table class="table" id="detalleVenta">
+        <thead>
+          <th scope="col">Descripcion</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio unitario</th>
+          <th scope="col">Total</th>
+        </thead>
+        <tr>
+          <td>
+            Descripcion de calibre
+          </td>
+          <td>
+            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="0" min="1">
+          </td>
+          <td>
+            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="$0" min="0.1">
+          </td>
+          <td>
+            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="$0.00" min="0.1" disabled>
+          </td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+    </div>
+    <div class="col card">
+      <h1 style="text-align: center;">CALIBRES PERMITIDOS</h1>
+      <hr>
+      <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Calibre</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Venta permitida</th>
+        <th scope="col">Ventas mes actual</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>9 mm</td>
+        <td>Arma corta</td>
+        <td>500</td>
+        <td>300</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>375</td>
+        <td>Magnum</td>
+        <td>Sin limite</td>
+        <td>200</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>22 largo</td>
+        <td>Rifle</td>
+        <td>400</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+    </div>
+  </div>
+
+  </div>

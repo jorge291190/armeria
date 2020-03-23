@@ -1,0 +1,107 @@
+<div class="row">
+  <div align="center" class="col">
+    <app-regresar class="mb-2"></app-regresar>
+  </div>
+  <div align="center" class="col">
+    <button type="button" class="btn btn-primary boton btn-xl" (click)="agregarcliente(codigo.value,amaterno.value,apaterno.value,nombre.value,direccion.value,fecha.value,estado.value,ciudad.value,tipo.value)">
+      <a class="btn-floating btn-large waves-effect waves-light red">
+        </a>
+  Guardar
+</button>
+  </div>
+</div>
+<br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <!-- /////////////////////////// -->
+        <form>
+            <label for="formGroupExampleInput">CÓDIGO</label>
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Escribir" #codigo>
+            <label for="formGroupExampleInput2">APELLIDO PATERNO</label>
+            
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #apaterno>
+         
+            <label for="formGroupExampleInput2">APELLIDO MATERNO</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #amaterno>
+         
+            <label for="formGroupExampleInput2">NOMBRE</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #nombre>
+         
+            <label for="formGroupExampleInput2">DIRECCIÓN</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Direccion" #direccion>
+         
+            <label for="formGroupExampleInput2">FECHA NACIMIENTO</label>
+            <input type="date" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #fecha>
+         
+            <label for="formGroupExampleInput2">ESTADO</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #estado>
+         
+            <label for="formGroupExampleInput2">CIUDAD</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #ciudad>
+         
+            <label for="formGroupExampleInput2">TIPO</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #tipo>
+          </form>
+      <!-- /////////////////////////// -->
+    </div>
+    <div class="col card">
+      <!-- ////////////////////////// -->
+      <h1 style="text-align: center;"> ASIGNAR CALIBRE A CLIENTE</h1>
+      <hr>
+        <button class="btn btn-primary" (click)="agregacalibre(selector.value,sellimi.value,limite.value)"> Agregar Calibre</button>
+      <hr>
+      Seleccionar calibres
+      <select class="form-control" #selector>
+        <option  value=''>Seleccionar</option>
+        <option *ngFor="let calibre of calibres" >{{calibre.calibre}}</option>
+      </select>
+      Desglose
+      <table class="table" id="detalleVenta">
+        <thead>
+          <th scope="col">Descripcion</th>
+          <th scope="col">Establecer limite</th>
+          <th scope="col">Limite</th>
+        </thead>
+        <tr>
+          <td>
+            Descripcion de calibre
+          </td>
+          <td>
+            <select class="form-control" #sellimi>
+              <option>Seleccionar limite</option>
+              <option>Con limite</option>
+              <option>Sin limite</option>
+            </select>
+          </td>
+          <td>
+            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="0" min="0.1" #limite>
+          </td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+      <hr>
+      <table class="table" id="detcal">
+        <thead>
+          <th scope="col">Descripcion</th>
+          <th scope="col">Limite Establecido</th>
+          <th scope="col">Limite</th>
+          </thead>
+          <tr *ngFor="let item of tablecalibres">
+            <td>
+              {{item.cal}}
+            </td>
+            <td>
+              {{item.selli}}
+            </td>
+            <td>
+              {{item.limit}}
+            </td>
+          </tr>
+        </table>
+      <!-- ////////////////////////// -->
+    </div>
+  </div>
+</div>
