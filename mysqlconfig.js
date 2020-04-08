@@ -84,21 +84,31 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             if (err) {
                 // Table already created
             }else{
-                // Table just created, creating some rows
-                var insert = 'INSERT INTO user (name, email, password) VALUES (?,?,?)'
-                db.run(insert, ["admin","admin@example.com",md5("admin123456")])
-                db.run(insert, ["user","user@example.com",md5("user123456")])
+                
             }
         });  
 
+        db.run(`CREATE TABLE IF NOT EXISTS calibres (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          descripcion unique, 
+          medida text, 
+          status text)`,
+      (err) => {
+          if (err) {
+              // Table already created
+          }else{
+              // Table just created, creating some rows
+          
+          }
+      }); 
 
         db.run(`CREATE TABLE IF NOT EXISTS clientes 
         (codigo varchar(8) primary key,
-        amaterno varchar(30),
         apaterno varchar(30),
+        amaterno varchar(30),
         nombre varchar(50),
         direccion text,
-        cumpleanios date,
+        localidad text,
         estado text,
         ciudad text,
         tipo text,
@@ -114,7 +124,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       });  
 
     }
-});
+  });
 
 
 
@@ -129,14 +139,9 @@ var HTTP_PORT = 8000
 app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
-// Root endpoint
 
-
-
-
-// Insert here other API endpoints
 
 // Default response for any other request
 app.use(function(req, res){
-    res.status(404);
+  res.status(404);
 });

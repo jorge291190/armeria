@@ -15,16 +15,22 @@ export class ClientesComponent implements OnInit {
                 this.http = http; 
                 this.rout = router;
   }
-calibres:any[];
+calibres:any[] =[];
 tablecalibres: any[] = new Array;
 
   ngOnInit() {
-    this.http.get(`http://localhost:8080/calibre`)
+    this.http.get(`http://localhost:8000/calibres`)
   .subscribe( (data: any) => {
 
-          this.calibres = data;
-          console.log(this.calibres);
+
+  Array.from(data.data).forEach(element => {
+      this.calibres.push(element);
+    });
+        console.log(data.data);
           
+
+
+        
   });
   }
 
@@ -44,23 +50,24 @@ agregarcliente(codigo:string,
                 apaterno:string,
                 nombre:string,
                 direccion:string,
-                fecha:Date,
+                localidad:string,
                 estado:string,
                 ciudad:string,
                 tipo:string){
                   
-              let dato = `insert into clientes values('${codigo}','${amaterno}','${apaterno}','${nombre}','${direccion}','${fecha}','${estado}','${ciudad}','${tipo}',null,'${JSON.stringify(this.tablecalibres)}')`;
-
-                  this.http.get(`http://localhost:8080/insertcli/${dato}`)
+              let dato = `http://localhost:8000/insertcli/${codigo}/${apaterno}/${amaterno}/${nombre}/${direccion}/${localidad}/${estado}/${ciudad}/${tipo}/${JSON.stringify(this.tablecalibres)}`;
+                    console.log(dato);
+                    
+                  this.http.get(dato)
                   .subscribe( (data: any) => {
-                
-                          this.calibres = data;
+            
                           console.log(data);
                           
-                         if(data !== 'error'){
-                           alert('CLIENTE AGREGADO CON EXITO');
+                         if(data.error){
+                          alert('error al momento de guardar');
+                          
                          }else{
-                           alert('error al momento de guardar');
+                          alert('CLIENTE AGREGADO CON EXITO');
                          }
                           
                   });
@@ -70,4 +77,29 @@ agregarcliente(codigo:string,
 
 this.rout.navigateByUrl('/menu');
  }
+
+altaCalibre(desc: string,calibre: string){
+
+  this.http.get(`http://localhost:8000/altacalibre/${desc}/${calibre}/Activo`)
+  .subscribe( (data: any) => {
+          const cal: any = {
+              descripcion: desc,
+              medida:  calibre,
+              status:  "Activo"
+          }
+         
+
+          if(data.error){
+
+            alert('error al guardar el registro');
+          }else{
+            this.calibres.push(cal);
+            alert('calibre agregado con exito');
+          }
+
+          console.log(this.calibres);
+          
+  });
+
+}
 }

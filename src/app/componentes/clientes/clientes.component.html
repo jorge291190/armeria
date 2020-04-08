@@ -3,7 +3,7 @@
     <app-regresar class="mb-2"></app-regresar>
   </div>
   <div align="center" class="col">
-    <button type="button" class="btn btn-primary boton btn-xl" (click)="agregarcliente(codigo.value,amaterno.value,apaterno.value,nombre.value,direccion.value,fecha.value,estado.value,ciudad.value,tipo.value)">
+    <button type="button" class="btn btn-primary boton btn-xl" (click)="agregarcliente(codigo.value,amaterno.value,apaterno.value,nombre.value,direccion.value,localidad.value,estado.value,ciudad.value,tipo.value)">
       <a class="btn-floating btn-large waves-effect waves-light red">
         </a>
   Guardar
@@ -19,8 +19,8 @@
         <form>
             <label for="formGroupExampleInput">CÓDIGO</label>
             <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Escribir" #codigo>
+
             <label for="formGroupExampleInput2">APELLIDO PATERNO</label>
-            
             <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #apaterno>
          
             <label for="formGroupExampleInput2">APELLIDO MATERNO</label>
@@ -32,14 +32,14 @@
             <label for="formGroupExampleInput2">DIRECCIÓN</label>
             <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Direccion" #direccion>
          
-            <label for="formGroupExampleInput2">FECHA NACIMIENTO</label>
-            <input type="date" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #fecha>
-         
             <label for="formGroupExampleInput2">ESTADO</label>
             <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #estado>
          
             <label for="formGroupExampleInput2">CIUDAD</label>
             <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #ciudad>
+            
+            <label for="formGroupExampleInput2">LOCALIDAD</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #localidad>
          
             <label for="formGroupExampleInput2">TIPO</label>
             <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #tipo>
@@ -49,13 +49,16 @@
     <div class="col card">
       <!-- ////////////////////////// -->
       <h1 style="text-align: center;"> ASIGNAR CALIBRE A CLIENTE</h1>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Nuevo Calibre
+      </button>
       <hr>
         <button class="btn btn-primary" (click)="agregacalibre(selector.value,sellimi.value,limite.value)"> Agregar Calibre</button>
       <hr>
       Seleccionar calibres
       <select class="form-control" #selector>
         <option  value=''>Seleccionar</option>
-        <option *ngFor="let calibre of calibres" >{{calibre.calibre}}</option>
+        <option *ngFor="let calibre of calibres" >{{calibre.descripcion}}</option>
       </select>
       Desglose
       <table class="table" id="detalleVenta">
@@ -102,6 +105,34 @@
           </tr>
         </table>
       <!-- ////////////////////////// -->
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Calibre</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="formGroupExampleInput">Descripcion</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Escribir" #desc>
+        
+        <label for="formGroupExampleInput2">Calibre</label>
+        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #calibre>
+     
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="altaCalibre(desc.value,calibre.value)" data-dismiss="modal">Guardar</button>
+      </div>
     </div>
   </div>
 </div>
