@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/armeria",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",

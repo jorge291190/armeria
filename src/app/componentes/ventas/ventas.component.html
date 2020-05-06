@@ -1,125 +1,173 @@
-<div class="container">
 
-<div class="row">
-  <div align="center" class="col">
-    <app-regresar class="mb-2"></app-regresar>
-  </div>
-  <div align="center" class="col">
-    <button type="button" class="btn btn-primary boton btn-xl">
-      <a class="btn-floating btn-large waves-effect waves-light red">
-        </a>
-  Generar venta
-</button>
-  </div>
-</div>
-<br><br>
-<div class="row">
-    <div class="col card">
-      <h1 style="text-align: center;"> NOTA DE VENTA</h1>
-      <hr>
-          <form>
-              FOLIO
-              <input type="text" class="form-control" id="formGroupExampleInput" placeholder="C-00025">
-              <br>
-              FECHA DE VENTA
-              <input type="date" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
-              <br>
-              <input id="campoBusqueda" type="text" name="search" placeholder="Buscar cliente..">
-          </form>
-    </div>
-    <div class="col card">
-      <h1 style="text-align: center;">INFO DE CLIENTE</h1>
-      <hr>
-  
-          <form>
-              <label for="lname">NOMBRE</label>
-              <input type="text" class="form-control" id="lname" name="lname" disabled>
-              <label for="lname">PERTENECE A CLUB DE CAZA</label>
-              <input type="text" class="form-control" id="lname" placeholder="SI/NO" disabled>
-              <label for="lname">DIRECCION</label>
-              <input type="text" class="form-control" id="lname" placeholder="SI/NO" disabled>
-              <label for="lname">ULTIMA VENTA</label>
-              <input type="date" class="form-control" id="lname" placeholder="SI/NO" disabled>
-          </form>
-  
+
+<mat-grid-list cols="3" rowHeight="100px" style="width: 95%; display: block; margin: auto;">
+  <mat-grid-tile
+      *ngFor="let tile of tiles"
+      [colspan]="tile.cols"
+      [rowspan]="tile.rows"
+      [style.background]="tile.color">
+    <div style="width: 95%; height: 95%;" *ngIf="tile.id ===1">
+      <mat-toolbar style="height:30px ;background-color: rgb(4, 66, 9); color: whitesmoke;">Datos Venta</mat-toolbar>
+
+      <div class= row>
+          <div class= "column">
+            <mat-form-field appearance="fill" style="display: block; width:100%;">
+              <mat-label>Folio</mat-label>
+              <input  matInput [formControl]="folio">
+            </mat-form-field>
+        </div>
+            <div class="column">
+              <mat-form-field>
+                <mat-label>Fecha Venta</mat-label>
+                <input matInput [matDatepicker]="picker1" [formControl]="date">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>
+      </div>   
+    
+        <mat-form-field  style="width: 100%;">
+          <input matInput
+                 placeholder={{placeautocomplete}}
+                 aria-label="Cliente"
+                 [matAutocomplete]="auto"
+                 [formControl]="stateCtrl">
+          <mat-autocomplete #auto="matAutocomplete"> 
+            <mat-option *ngFor="let state of filteredStates | async" [value]="state.codigo">
+            
+              <span>{{state.nombre}}</span> |
+              <small>Codigo: {{state.codigo}}</small> |
+              <small>RFA: {{state.rfa}}</small>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        
+        <h4>Seleccionar Calibre</h4>
+        <mat-form-field>
+          <mat-label>Calibre</mat-label>
+          <mat-select [(ngModel)]="selcalibre">
+            <mat-option [value]="" >
+            Seleccionar
+            </mat-option>
+            <mat-option  *ngFor="let item of calibres" [value]="item.idcalibre"  (click)="consultaVentaCalibre(item.calibre,item.descripcion)">
+              {{item.idcalibre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+   
+      <br>
+
+      <div class = "row">
+        <div class = "column" style="margin-left: 10px;">
+          <mat-form-field appearance="fill" >
+            <mat-label>Cantidad Venta</mat-label>
+            <input matInput type="number" [(ngModel)]="cantidadVenta">
+          </mat-form-field>
+        </div>
+        <div class="column" style="margin: auto;"> 
+          <button mat-stroked-button (click)="agregarDetalle(selcalibre)">Agregar Detalle</button></div>
       </div>
-  </div>
-  
-  <br><br>
-  
-  <div class="row">
-    <div class="col card">
-      <h1 style="text-align: center;"> DETALLE DE VENTA</h1>
-      <hr>
-      <select class="form-control">
-        <option>Default select</option>
-        <option>9 mm</option>
-        <option>375</option>
-        <option>22 largo</option>
-      </select>
-      <table class="table" id="detalleVenta">
-        <thead>
-          <th scope="col">Descripcion</th>
-          <th scope="col">Cantidad</th>
-          <th scope="col">Precio unitario</th>
-          <th scope="col">Total</th>
-        </thead>
-        <tr>
-          <td>
-            Descripcion de calibre
-          </td>
-          <td>
-            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="0" min="1">
-          </td>
-          <td>
-            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="$0" min="0.1">
-          </td>
-          <td>
-            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="$0.00" min="0.1" disabled>
-          </td>
-        </tr>
-        <tr>
-        </tr>
-      </table>
-    </div>
-    <div class="col card">
-      <h1 style="text-align: center;">CALIBRES PERMITIDOS</h1>
-      <hr>
-      <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Calibre</th>
-        <th scope="col">Descripción</th>
-        <th scope="col">Venta permitida</th>
-        <th scope="col">Ventas mes actual</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>9 mm</td>
-        <td>Arma corta</td>
-        <td>500</td>
-        <td>300</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>375</td>
-        <td>Magnum</td>
-        <td>Sin limite</td>
-        <td>200</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>22 largo</td>
-        <td>Rifle</td>
-        <td>400</td>
-        <td>0</td>
-      </tr>
-    </tbody>
-  </table>
-    </div>
-  </div>
+    
+        </div>
 
-  </div>
+        <div style="width: 95%; height: 95%;"   *ngIf="tile.id === 2">
+          <mat-toolbar style="height:30px ;background-color: rgb(4, 66, 9); color: whitesmoke;">Datos Cliente</mat-toolbar>
+
+          <mat-card class="example-card" style="width:100%; height: 100%;">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title><B>NOMBRE:</B>{{clienteseleccionado.nombre | uppercase}}</mat-card-title>
+              <mat-card-subtitle> <b>CLUB Si/No: </b>{{clienteseleccionado.tipo}}</mat-card-subtitle>
+            </mat-card-header>
+        
+            <mat-card-actions>
+              <b>DIRECCION: </b> {{clienteseleccionado.direccion}} 
+              <hr>
+              <b>ESTADO: </b>{{clienteseleccionado.estado}} 
+              <hr>
+              <b>CIUDAD: </b>{{clienteseleccionado.ciudad}} 
+              <hr>
+              <b>LOCALIDAD: </b>{{clienteseleccionado.localidad}} 
+
+            </mat-card-actions>
+          </mat-card>
+        </div>
+
+        <div style="width: 100%; height: 100%;" *ngIf="tile.id === 3">
+          <mat-toolbar style="height:30px ;background-color: rgb(4, 66, 9); color: whitesmoke;">Calibres Permitidos</mat-toolbar>
+
+          <table mat-table [dataSource]="dataSource" style="width: 100%;" class="mat-elevation-z8">
+
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="calibre">
+              <th mat-header-cell *matHeaderCellDef> Calibre</th>
+              <td mat-cell *matCellDef="let element"> {{element.calibre}} </td>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="descripcion">
+              <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+              <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="venta" style="text-align: center;">
+              <th mat-header-cell *matHeaderCellDef> Venta Permitida </th>
+              <td mat-cell *matCellDef="let element"> {{element.ventapermitida}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ventamesactual">
+              <th mat-header-cell *matHeaderCellDef> Venta Mes Actual </th>
+              <td mat-cell *matCellDef="let element"> {{element.ventamesactual}}</td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          
+        </div>
+
+        <div style="width: 95%; height: 95%;"   *ngIf="tile.id === 4">
+          <mat-toolbar style="height:30px ;background-color: rgb(4, 66, 9); color: whitesmoke;">Detalle de Venta</mat-toolbar>
+
+          <div class="row" style="width: 100%;" *ngFor="let item of detallesventa">
+           
+            <div class="column"   style="width: 30%; display: block; margin: auto;"> {{item.producto}}</div>
+            <div class="column"   style="width: 10%; display: block; margin: auto;">
+              <mat-form-field appearance="fill" style="display: block; width:100%;">
+                <mat-label>Cantidad</mat-label>
+                <input  matInput  [value]="item.cantidad" (keyup)="updateDetVenta(item.idtrans,can.value,item.producto)" #can>
+              </mat-form-field>
+              </div>
+            <div class="column"   style="width: 25%; display: block; margin: auto;">{{item.status | uppercase}}</div>
+            <div class = "column" style="width: 25%; display: block; margin: auto;"> 
+              <button (click)="eliminarDetalle(item.idtrans,item.producto)" mat-mini-fab color = 'warn' aria-label="Example icon-button with a heart icon">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+       
+        <hr>
+          </div>
+        
+        </div>
+
+        <div style="width: 95%; height: 95%;"   *ngIf="tile.id === 5">
+          <mat-toolbar style="height:30px ;background-color: rgb(4, 66, 9); color: whitesmoke;">MENU</mat-toolbar>
+
+          <button mat-stroked-button color="warn" (click)="altaVentas()"  
+                  style="margin: auto;  width: 80%; display: block;">
+
+                         Guardar Venta<mat-icon>save</mat-icon>
+          </button>
+          <hr>
+          
+          <button mat-stroked-button color="warn" (click)="navegar()"  
+                  style="margin: auto; width: 80%; display: block;">
+                        Regresar <mat-icon> keyboard_return </mat-icon>
+          </button>
+        </div>
+  </mat-grid-tile>
+</mat-grid-list>
+

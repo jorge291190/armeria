@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Agregar Nuevos Calibres</h1>
+<div mat-dialog-content style="width: 400px; height: 250px;">
+
+  <mat-form-field appearance="fill" style="display: block; width: 100%;">
+    <mat-label>DESCRIPCION</mat-label>
+    <input matInput [(ngModel)]="desc">
+  </mat-form-field>
+  <mat-form-field appearance="fill" style="display: block; width:100%;">
+    <mat-label>CALIBRE</mat-label>
+    <input  matInput [(ngModel)]="cal">
+  </mat-form-field>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="{calibre: cal, descripcion: desc}" cdkFocusInitial>Agregar</button>
+</div>

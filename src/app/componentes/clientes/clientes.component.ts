@@ -1,7 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MatTable } from '@angular/material/table';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+export interface Tile {
+  color: string;
+  id: number;
+  cols: number;
+  rows: number;
+  text: string;
+}
 
+export interface DialogData {
+  animal: 'panda' | 'unicorn' | 'lion';
+}
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
@@ -9,14 +22,40 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ClientesComponent implements OnInit {
   rout: Router;
+  codigo    : string;
+  rfa       :string;
+  apaterno  : string;
+  amaterno  : string;
+  nombre    : string;
+  direccion : string;
+  estado    : string;
+  ciudad    : string;
+  localidad : string;
+  tipo      : string;
+  cal       :string;
+  desc      :string;
+
+  tipos:any [] = ['Club','No Club']; 
+  @ViewChild(MatTable,null) table: MatTable<any>;
   http;
+  calibres:any[] =[];
+  tablecalibres: any[] = new Array;
+  tiles: Tile[] = [
+    {text: 'One',  id:1, cols: 2, rows: 7, color: ''},
+    {text: 'Two',  id:2, cols: 1, rows: 7, color: ''},
+    {text: 'Three',id:3, cols: 1, rows: 3, color: ''},
+    {text: 'Four', id:4, cols: 1, rows: 4, color: '#ffffff'},
+  ];
+  dataSource: any = new Array; 
+  displayedColumns: string[] = ['Calibre','Cantidad','Delete'];
+  
   constructor(router: Router,
-              http: HttpClient) { 
+              http: HttpClient,
+              private _snackBar: MatSnackBar,
+              public dialog: MatDialog) { 
                 this.http = http; 
                 this.rout = router;
   }
-calibres:any[] =[];
-tablecalibres: any[] = new Array;
 
   ngOnInit() {
     this.http.get(`http://localhost:8000/calibres`)
@@ -26,75 +65,101 @@ tablecalibres: any[] = new Array;
   Array.from(data.data).forEach(element => {
       this.calibres.push(element);
     });
-        console.log(data.data);
-          
-
-
-        
+        console.log(data.data);  
   });
   }
 
-agregacalibre(calibre:string, sellimit:string, limite:string){
+calibre: string;
+cantidad  : string;
+status: string;
+
+agregacalibre(){
       let temp: any= {
-        cal: calibre,
-        selli: sellimit,
-        limit: limite 
+        cal: this.calibres.filter(data => data.idcalibre === this.calibre),
+        limit: this.cantidad,
+        status: this.status 
       };
 
-      this.tablecalibres.push(temp);
-
+      this.dataSource.push(temp);
+      console.log(temp);
+      
+      this.table.renderRows();
+      this.calibre= "";
+      this.cantidad ="";
+      this.status = "";
 }
 
-agregarcliente(codigo:string,
-                amaterno:string,
-                apaterno:string,
-                nombre:string,
-                direccion:string,
-                localidad:string,
-                estado:string,
-                ciudad:string,
-                tipo:string){
+agregarcliente(){
                   
-              let dato = `http://localhost:8000/insertcli/${codigo}/${apaterno}/${amaterno}/${nombre}/${direccion}/${localidad}/${estado}/${ciudad}/${tipo}/${JSON.stringify(this.tablecalibres)}`;
+              let dato = `http://localhost:8000/insertcli/${this.codigo}/${this.rfa}/${this.apaterno}/${this.amaterno}/${this.nombre}/${this.direccion}/${this.localidad}/${this.estado}/${this.ciudad}/${this.tipo}/${JSON.stringify(this.dataSource)}`;
                     console.log(dato);
                     
-                  this.http.get(dato)
+                 this.http.get(dato)
                   .subscribe( (data: any) => {
             
                           console.log(data);
                           
                          if(data.error){
-                          alert('error al momento de guardar');
+                          this.openSnackBar('Error Codigo de Cliente Duplicado','Error');
+                          this.codigo   ="";
                           
                          }else{
-                          alert('CLIENTE AGREGADO CON EXITO');
+                          this.codigo   ="";
+                          this.rfa      ="";
+                          this.apaterno ="";
+                          this.amaterno ="";
+                          this.nombre   ="";
+                          this.direccion="";
+                          this.estado   ="";
+                          this.ciudad   ="";
+                          this.localidad="";
+                          this.tipo     ="";
+                          this.cantidad ="";
+                          this.openSnackBar('Cliente Agregado Con Exito','OK');
+                          this.dataSource = new Array;
+                          this.table.renderRows();
+
+                          
                          }
                           
                   });
+
+                  console.log(this.codigo);
+                  
+
+
 
 }
  navegar(){
 
 this.rout.navigateByUrl('/menu');
- }
+}
 
-altaCalibre(desc: string,calibre: string){
+ eliminar(dato: string){
 
-  this.http.get(`http://localhost:8000/altacalibre/${desc}/${calibre}/Activo`)
+  let temp:any = this.dataSource.filter(valor => valor.cal !== dato);
+
+  this.dataSource = temp;
+}
+
+altaCalibre(cali: string, desc: string){
+console.log(`http://localhost:8000/altacalibre/${desc}/${cali}/Activo/${cali}|${desc}`);
+
+  this.http.get(`http://localhost:8000/altacalibre/${desc}/${cali}/Activo/${cali}|${desc}`)
   .subscribe( (data: any) => {
           const cal: any = {
+              idcalibre: new String(cali+"|"+desc),
               descripcion: desc,
-              medida:  calibre,
+              medida:      cali,
               status:  "Activo"
           }
          
-
           if(data.error){
 
-            alert('error al guardar el registro');
+           this.openSnackBar('ERROR AL AGREGAR EL CALIBRE',"ERROR");
           }else{
             this.calibres.push(cal);
-            alert('calibre agregado con exito');
+            this.openSnackBar('CALIBRE AGREGADO CON EXITO',"OK");
           }
 
           console.log(this.calibres);
@@ -102,4 +167,44 @@ altaCalibre(desc: string,calibre: string){
   });
 
 }
+
+openSnackBar(message: string, action: string) {
+  this._snackBar.open(message, action, {
+    duration: 5000,
+  });
+}
+
+openDialog(): void {
+  const dialogRef = this.dialog.open(DialogDataExampleDialog, {
+    data: {cal: this.cal, desc: this.desc}
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed');
+      if(result){
+        this.altaCalibre(result.calibre,result.descripcion);
+      }
+   
+  });
+}
+
+
+}
+
+@Component({
+  selector: 'snack',
+  templateUrl: 'snack.html',
+})
+export class DialogDataExampleDialog {
+  constructor(public dialogRef: MatDialogRef<DialogDataExampleDialog>,
+              @Inject(MAT_DIALOG_DATA)
+              public data: any) {
+                
+  }
+  desc;
+  cal;
+ 
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

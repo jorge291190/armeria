@@ -1,138 +1,180 @@
-<div class="row">
-  <div align="center" class="col">
-    <app-regresar class="mb-2"></app-regresar>
-  </div>
-  <div align="center" class="col">
-    <button type="button" class="btn btn-primary boton btn-xl" (click)="agregarcliente(codigo.value,amaterno.value,apaterno.value,nombre.value,direccion.value,localidad.value,estado.value,ciudad.value,tipo.value)">
-      <a class="btn-floating btn-large waves-effect waves-light red">
-        </a>
-  Guardar
-</button>
-  </div>
-</div>
-<br><br>
+<div style="width: 98%; display: block; margin:auto; margin-top: 10px;">
+<mat-grid-list cols="4" rowHeight="93px">
+  <mat-grid-tile
+      *ngFor="let tile of tiles"
+      [colspan]="tile.cols"
+      [rowspan]="tile.rows"
+      [style.background]="tile.color">
+    
+    <div *ngIf="tile.id === 1" style="width: 100%; height: 100%;">
+      <mat-toolbar style="background-color: rgb(4, 66, 9); height:30px ; color: whitesmoke;">DATOS CLIENTE</mat-toolbar>
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <!-- /////////////////////////// -->
-        <form>
-            <label for="formGroupExampleInput">CÓDIGO</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Escribir" #codigo>
-
-            <label for="formGroupExampleInput2">APELLIDO PATERNO</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #apaterno>
-         
-            <label for="formGroupExampleInput2">APELLIDO MATERNO</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #amaterno>
-         
-            <label for="formGroupExampleInput2">NOMBRE</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #nombre>
-         
-            <label for="formGroupExampleInput2">DIRECCIÓN</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Direccion" #direccion>
-         
-            <label for="formGroupExampleInput2">ESTADO</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #estado>
-         
-            <label for="formGroupExampleInput2">CIUDAD</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #ciudad>
-            
-            <label for="formGroupExampleInput2">LOCALIDAD</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #localidad>
-         
-            <label for="formGroupExampleInput2">TIPO</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #tipo>
-          </form>
-      <!-- /////////////////////////// -->
-    </div>
-    <div class="col card">
-      <!-- ////////////////////////// -->
-      <h1 style="text-align: center;"> ASIGNAR CALIBRE A CLIENTE</h1>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Nuevo Calibre
-      </button>
-      <hr>
-        <button class="btn btn-primary" (click)="agregacalibre(selector.value,sellimi.value,limite.value)"> Agregar Calibre</button>
-      <hr>
-      Seleccionar calibres
-      <select class="form-control" #selector>
-        <option  value=''>Seleccionar</option>
-        <option *ngFor="let calibre of calibres" >{{calibre.descripcion}}</option>
-      </select>
-      Desglose
-      <table class="table" id="detalleVenta">
-        <thead>
-          <th scope="col">Descripcion</th>
-          <th scope="col">Establecer limite</th>
-          <th scope="col">Limite</th>
-        </thead>
-        <tr>
-          <td>
-            Descripcion de calibre
-          </td>
-          <td>
-            <select class="form-control" #sellimi>
-              <option>Seleccionar limite</option>
-              <option>Con limite</option>
-              <option>Sin limite</option>
-            </select>
-          </td>
-          <td>
-            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="0" min="0.1" #limite>
-          </td>
-        </tr>
-        <tr>
-        </tr>
-      </table>
-      <hr>
-      <table class="table" id="detcal">
-        <thead>
-          <th scope="col">Descripcion</th>
-          <th scope="col">Limite Establecido</th>
-          <th scope="col">Limite</th>
-          </thead>
-          <tr *ngFor="let item of tablecalibres">
-            <td>
-              {{item.cal}}
-            </td>
-            <td>
-              {{item.selli}}
-            </td>
-            <td>
-              {{item.limit}}
-            </td>
-          </tr>
-        </table>
-      <!-- ////////////////////////// -->
-    </div>
-  </div>
-</div>
-
-<!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Calibre</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <label for="formGroupExampleInput">Descripcion</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Escribir" #desc>
+      <div class="example-container" style="width: 95%; display: block; margin: auto; margin-top: 10px;">
+        <div class="row">
+          <div class="column">
+            <mat-form-field appearance="fill" style="display: block; width: 95%;">
+              <mat-label>CÓDIGO</mat-label>
+              <input matInput [(ngModel)]="codigo">
+            </mat-form-field>
+          </div>
+          <div class = "column">
+            <mat-form-field appearance="fill" style="display: block; width: 100%;">
+              <mat-label>NO. R.F.A</mat-label>
+              <input matInput [(ngModel)]="rfa">
+            </mat-form-field>
+          </div>
+        </div>
         
-        <label for="formGroupExampleInput2">Calibre</label>
-        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Escribir" #calibre>
-     
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="altaCalibre(desc.value,calibre.value)" data-dismiss="modal">Guardar</button>
+        <div class= "row">
+
+          <div class="column">
+            <mat-form-field appearance="fill" style="display: block; width:95%;">
+              <mat-label>APELLIDO PATERNO</mat-label>
+              <input  matInput [(ngModel)]="apaterno">
+            </mat-form-field>
+          </div>
+          <div class="column">
+            <mat-form-field appearance="fill" style="display: block; width:100%;">
+              <mat-label>APELLIDO MATERNO</mat-label>
+              <input  matInput [(ngModel)]="amaterno">
+            </mat-form-field>
+          </div>
+        </div>
+        
+       
+        <mat-form-field appearance="fill" style="display: block;">
+          <mat-label>NOMBRE</mat-label>
+          <input  matInput [(ngModel)]="nombre">
+        </mat-form-field>
+        <mat-form-field appearance="fill" style="display: block; ">
+          <mat-label>DIRECCIÓN</mat-label>
+          <input  matInput [(ngModel)]="direccion">
+        </mat-form-field>
+        <mat-form-field appearance="fill" style="width:100%;">
+          <mat-label>ESTADO</mat-label>
+          <input  matInput [(ngModel)]="estado">
+        </mat-form-field>
+
+        <div class="row">
+          <div class="column">
+            <mat-form-field appearance="fill" style="display: block; width:95%;">
+              <mat-label>CIUDAD</mat-label>
+              <input  matInput [(ngModel)]="ciudad">
+            </mat-form-field>
+          </div>
+          <div class="column">
+            <mat-form-field appearance="fill" style="display: block; width:100%;">
+              <mat-label>LOCALIDAD</mat-label>
+              <input  matInput [(ngModel)]="localidad">
+            </mat-form-field>
+          </div>
+        </div>
+        
+        <mat-form-field style="width: 100%;">
+          <mat-label>TIPO DE CLIENTE</mat-label>
+          <mat-select [(ngModel)]="tipo">
+            <mat-option *ngFor="let t of tipos" [value]="t">
+              {{t}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
     </div>
-  </div>
+
+    <div *ngIf="tile.id === 2" style="width: 100%; height: 100%;">
+      <mat-toolbar style="height:30px ; background-color: rgb(4, 66, 9); color: whitesmoke;">ASIGNAR LIMITES</mat-toolbar>
+
+      <div class="example-container" style="width: 95%; display: block; margin: auto; margin-top: 10px;">
+
+        <div class="row">
+          <div class="column">
+            <mat-form-field style="margin-left: 5px; width: 95%; text-align: start;">
+              <mat-label >SELECT. CALIBRE</mat-label>
+              <mat-select [(ngModel)]="calibre">
+                <mat-option *ngFor="let calibre of calibres" [value]="calibre.idcalibre">
+                  {{calibre.idcalibre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="column">
+            
+            <button mat-stroked-button  style="background-color: rgb(4, 66, 9); color: whitesmoke; width: 95%;" (click)="agregacalibre()">
+              Agregar Limite <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <mat-form-field appearance="fill" style="display: block; width:100%;">
+              <mat-label>CANTIDAD</mat-label>
+              <input  matInput [(ngModel)]="cantidad">
+            </mat-form-field>
+          </div>
+            <div class= "column">
+              
+              <button mat-stroked-button  style="background-color: rgb(15, 4, 66); color: whitesmoke; width: 95%;" (click)="openDialog()">
+                Alta Nuevo Calibre <mat-icon>fiber_new</mat-icon>
+              </button>
+            </div>
+        </div>
+      
+      </div>
+      <div *ngIf="tile.id === 2" style="width: 100%; height: 100%;">
+        <mat-toolbar style="background-color: rgb(4, 66, 9); color: whitesmoke;">CALIBRES</mat-toolbar>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:98%; display:block; margin: auto;" >
+
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+        
+          <!-- calibre -->
+          <ng-container matColumnDef="Calibre">
+            <th mat-header-cell *matHeaderCellDef style="width: 50%;"> Calibre </th>
+            <td mat-cell *matCellDef="let element"> {{element.cal[0].medida}} </td>
+          </ng-container>
+         <!-- cantidad -->
+         <ng-container matColumnDef="Cantidad">
+          <th mat-header-cell *matHeaderCellDef style="width: 40%;"> Cantidad </th>
+          <td mat-cell *matCellDef="let element"> {{element.limit}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="Delete">
+          <th mat-header-cell *matHeaderCellDef style="width: 40%;"> Eliminar </th>
+          <td mat-cell *matCellDef="let element"> 
+            <button mat-stroked-button color = 'warn' aria-label="Example icon-button with a heart icon" (click)="eliminar(element.cal)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        </div>
+    </div>
+
+      
+    <div *ngIf="tile.id === 3" style="width: 100%; height: 100%;">
+      <mat-toolbar style="height:30px ;background-color: rgb(4, 66, 9); color: whitesmoke;">MENU</mat-toolbar>
+
+        
+        <button mat-stroked-button color="warn" (click)="agregarcliente()"  
+                style="margin: auto;  width: 80%; display: block;">
+          Guardar Cliente <mat-icon>save</mat-icon>
+        </button>
+        <hr>
+        
+        <button mat-stroked-button color="warn" (click)="navegar()"  
+                style="margin: auto; width: 80%; display: block;">
+          Regresar <mat-icon> keyboard_return </mat-icon>
+        </button>
+
+      </div>
+
+      <div *ngIf="tile.id === 4" style="width: 100%; height: 100%; background: url('assets/fondo.jpg')no-repeat center;"></div>
+  </mat-grid-tile>
+</mat-grid-list>
+
 </div>
+
+
+     

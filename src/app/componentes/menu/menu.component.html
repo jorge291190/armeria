@@ -1,8 +1,17 @@
-<div class="card-group mb-5">
-  <div class="card" *ngFor="let plan of datos">
-          <a class="btn btn-primary" (click)="navegar(plan.menu)"  [ngStyle]="{'font-size':'24px','background':plan.rgb, 'color': plan.font}"  style="text-align: center; display: block; margin: auto; ">
-            {{plan.titulo}} 
-            </a>  
-        </div> 
-  </div>
   
+  <mat-grid-list cols="4" rowHeight="90px" style="margin: 20px;">
+    <mat-grid-tile
+        *ngFor="let tile of tiles"
+        [colspan]="tile.cols"
+        [rowspan]="tile.rows"
+        [style.background]="tile.color">
+      <div *ngIf="tile.id === 1" style="width: 90%; height: 100%; margin-top: 10px;">
+        <div  *ngFor="let dato of datos">
+          <button mat-flat-button color="primary" style="width: 100%; height: 30%; margin: 20px;" 
+                  (click)="navegar(dato.menu)">{{dato.titulo | uppercase }}</button>
+        </div>  
+      </div>
+
+      <div *ngIf="tile.id === 4" style="width: 100%; height: 100%; background: url('assets/fondo.jpg')no-repeat center;"></div>
+    </mat-grid-tile>
+  </mat-grid-list>

@@ -1,0 +1,18 @@
+<mat-grid-list cols="4" rowHeight="100px">
+  <mat-grid-tile
+      *ngFor="let tile of tiles"
+      [colspan]="tile.cols"
+      [rowspan]="tile.rows"
+      [style.background]="tile.color">
+    <div *ngIf="tile.id === 1">
+
+     <div *ngFor="let item of arrcalibres"  style ="display: inline-block; margin:auto;">
+      <button mat-raised-button [ngStyle]="{'color': item.letras ,'background-color': item.color}"
+      (click)="marcarDesmarcar(item.calibre)" >
+        {{item.calibre}}
+      </button>
+     </div>
+
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>

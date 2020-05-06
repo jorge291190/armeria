@@ -36,9 +36,26 @@ export class MenuComponent implements OnInit {
   rgb: "#000000",
   font: "#ffffff",
 
+},
+{
+  imagen: 'https://phoneky.co.uk/thumbs/screensavers/down/abstract/greenfluid_bv5c7t5f.gif',
+  menu:'reporte',
+  titulo: 'Reporte' ,
+  id:"hogar",
+  rgb: "#000000",
+  font: "#ffffff",
+
 }
 
   ];
+
+  tiles: any[] = [
+    {text: 'One',  id:1, cols: 2, rows: 4, color: 'white'},
+    {text: 'Two',  id:2, cols: 2, rows: 4, color: 'lightgreen'},
+    {text: 'Three',id:3, cols: 2, rows: 3, color: 'lightpink'},
+    {text: 'Four', id:4, cols: 2, rows:4, color: '#ffffff'},
+  ];
+
   router : Router;
   peticion;
   constructor(rout: Router,

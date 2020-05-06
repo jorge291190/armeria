@@ -1,70 +1,10 @@
-/*const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-//const mysql = require('mysql');
-const events = require('./events');
-
-
- var tablaClientes = "create table IF NOT EXISTS clientes (codigo varchar(8) primary key,amaterno varchar(30),apaterno varchar(30),nombre varchar(50),direccion text,cumpleanios date,estado text,ciudad text,tipo text,calibres text);"
-
- var sqlite3 = require('sqlite3').verbose();
- var db = new sqlite3.Database(':memory:');
- 
- db.serialize(function() {
- 
-   db.run('CREATE TABLE lorem (info TEXT)');
-   var stmt = db.prepare('INSERT INTO lorem VALUES (?)');
- 
-   for (var i = 0; i < 10; i++) {
-     stmt.run('Ipsum ' + i);
-   }
- 
-   stmt.finalize();
- 
-   db.each('SELECT rowid AS id, info FROM lorem', function(err, row) {
-     console.log(row.id + ': ' + row.info);
-   });
- });
- 
- db.close();
- 
-
-
-/*
-const connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'root',
-  database : 'armeria'
-});
-
-//connection.connect();
-
-
-
-const port = process.env.PORT || 8080;
-
-const app = express()
-  .use(cors())
-  .use(bodyParser.json())
-  .use(events(connection));
-
-app.listen(port, () => {
-  console.log(`Express server listening on port ${port}`);
-});
-*/
-
-var express = require("express")
-//var app = express()
+var express = require("express");
 const events = require('./events');
 var sqlite3 = require('sqlite3').verbose();
 var md5 = require('md5')
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const DBSOURCE = "db.sqlite"
-
-
-
 
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
@@ -89,8 +29,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         });  
 
         db.run(`CREATE TABLE IF NOT EXISTS calibres (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          descripcion unique, 
+          idcalibre text unique,
+          descripcion text, 
           medida text, 
           status text)`,
       (err) => {
@@ -104,6 +44,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 
         db.run(`CREATE TABLE IF NOT EXISTS clientes 
         (codigo varchar(8) primary key,
+        rfa text unique,
         apaterno varchar(30),
         amaterno varchar(30),
         nombre varchar(50),
@@ -112,7 +53,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         estado text,
         ciudad text,
         tipo text,
-        calibres text);
+        calibres text,
+        ultimacompra date);
         `,
       (err) => {
           if (err) {
@@ -122,6 +64,47 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             
           }
       });  
+
+      
+      db.run(`CREATE TABLE IF NOT EXISTS ventas 
+      (folio INTEGER PRIMARY KEY AUTOINCREMENT,
+      prefijo varchar(4),
+      status text,
+      cliente text,
+      fecha timestamp,
+      total float);
+      `,
+    (err) => {
+        if (err) {
+            // Table already created
+        }else{
+            // Table just created, creating some rows
+          
+        }
+    });  
+
+    
+    db.run(`CREATE TABLE IF NOT EXISTS detalleventa 
+    (   transaccion text unique,
+        idventa int,
+        fecha date,
+        cliente text,
+        aniomes text,
+        cantidad float,
+        status text,
+        subtotal float,
+        total float,
+        producto text
+      );
+    `,
+  (err) => {
+      if (err) {
+          // Table already created
+      }else{
+          // Table just created, creating some rows
+        
+      }
+  });  
 
     }
   });
